@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>My paint</title>
+	<link rel="stylesheet" type="text/css" href="draw.css">
+</head>
+<body>
+	<div class="top-bar">
+		<h2 id="title">My paint</h2>
+		<button id="save-btn">Save</button>
+		<button id="undo-btn">undo</button>
+		<button id="clear-btn">clear</button>
+		<button id="pencil">pencil</button>
+		<button id="eraser">eraser</button>
+		<input type="color" id="colorpicker">
+		<input type="range" id="brush-size" min="1" max="50" value="10">
+	</div>
+
+	<canvas id="draw"></canvas>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="draw.js"></script>
+
+</body>
+</html>
