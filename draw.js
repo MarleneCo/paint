@@ -8,10 +8,8 @@ var canvas, ctx,
 	},
 
 	strokes = [],
-	currentStroke = null;
-
-	var clicktool = new Array();
-	var curTool = 'pencil';
+	currentStroke = null,
+	linemode = false;
 
 function redraw(){
 	ctx.clearRect(0, 0, canvas.width(), canvas.height());
@@ -19,7 +17,6 @@ function redraw(){
 
 	for(var i =0; i < strokes.length; i++){
 		var s = strokes[i];
-		console.log(s.color);
 		ctx.strokeStyle = s.color;
 		ctx.lineWidth = s.size;
 		ctx.beginPath();
@@ -29,9 +26,11 @@ function redraw(){
 			ctx.lineTo(p.x, p.y);
 		}
 		ctx.stroke();
-	}
 }
- function init(){
+}
+
+
+function init(){
  	canvas = $('#draw');
  	canvas.attr({
  		width: window.innerWidth,
@@ -53,27 +52,58 @@ function redraw(){
  	}
 
  	canvas.mousedown(function (e) {
- 		brush.down = true;
+ 		if (linemode == true){
 
- 		currentStroke = {
- 			color: brush.color,
- 			size: brush.size,
- 			points:[],
- 		};
- 		strokes.push(currentStroke);
+ 			currentStroke = {
+	 			color: brush.color,
+	 			size: brush.size,
+	 			points:[],
+	 		};
+	 		strokes.push(currentStroke);
 
- 		mouseEvent(e);
+	 		brush.x = e.pageX;
+	 		brush.y = e.pageY;
+
+	 		currentStroke.points.push({
+	 			x: brush.x,
+	 			y: brush.y,
+	 		});
+
+	 		ctx.beginPath();
+	 		ctx.moveTo(e.pageX, e.pageY);
+	 		
+ 		} else {
+
+	 		brush.down = true;
+
+	 		currentStroke = {
+	 			color: brush.color,
+	 			size: brush.size,
+	 			points:[],
+	 		};
+	 		strokes.push(currentStroke);
+	 		mouseEvent(e);
+ 		}
 
  	}).mouseup(function (e) {
- 		brush.down = false;
+ 		if (linemode == true){
+ 			ctx.lineTo(e.pageX, e.pageY);
+ 			ctx.stroke();
 
- 		mouseEvent(e);
+ 			mouseEvent(e);
+ 		} else {
+ 			brush.down = false;
 
-		currentStroke = null;
+	 		mouseEvent(e);
+
+			currentStroke = null;
+		}
  	}).mousemove(function (e){
+ 		console.log('MOVE');
  		if (brush.down)
  			mouseEvent(e);
  	});
+
 
  	$('#save-btn').click(function (){
  		window.open(canvas[0].toDataURL());
@@ -105,6 +135,14 @@ function redraw(){
  	$('#pencil').click(function () {
  		brush.color = $("#colorpicker").val();
  	});
- }
+
+ 	$('#line').click(function () {
+
+ 		if(linemode == true)
+ 			linemode = false;
+ 		else
+ 			linemode = true;
+ 	});
+}
 
  $(init);
