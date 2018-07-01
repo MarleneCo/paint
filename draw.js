@@ -10,6 +10,7 @@ var canvas, ctx,
 	strokes = [],
 	currentStroke = null,
 	linemode = false;
+	erasermode =false;
 
 function redraw(){
 	ctx.clearRect(0, 0, canvas.width(), canvas.height());
@@ -53,7 +54,7 @@ function init(){
 
  	canvas.mousedown(function (e) {
  		if (linemode == true){
-
+ 			console.log('Je suis linemode');
  			currentStroke = {
 	 			color: brush.color,
 	 			size: brush.size,
@@ -75,6 +76,7 @@ function init(){
  		} else {
 
 	 		brush.down = true;
+	 		console.log('Je suis down');
 
 	 		currentStroke = {
 	 			color: brush.color,
@@ -87,11 +89,13 @@ function init(){
 
  	}).mouseup(function (e) {
  		if (linemode == true){
+ 			console.log('Je suis up')
  			ctx.lineTo(e.pageX, e.pageY);
  			ctx.stroke();
 
- 			mouseEvent(e);
+ 			mouseEvent(e)
  		} else {
+ 			console.log('je suis encore down')
  			brush.down = false;
 
 	 		mouseEvent(e);
@@ -129,19 +133,40 @@ function init(){
  	});
 
  	$('#eraser').click(function (){
- 		brush.color = 'white'; 
+ 		if (linemode == true){
+ 			console.log('bouton line désactivé par eraser');
+ 			linemode = false;
+ 			brush.color = 'white';
+ 		}else{
+ 			brush.color = 'white'; 
+		}
  	});
 
  	$('#pencil').click(function () {
- 		brush.color = $("#colorpicker").val();
+ 		if (linemode == true){
+ 			console.log('bouton line désactivé par pencil');
+ 			linemode = false;
+ 			brush.color = $("#colorpicker").val();
+ 		}else{
+ 			console.log('pencil activé');
+ 			brush.color = $("#colorpicker").val();
+		}
  	});
 
  	$('#line').click(function () {
 
- 		if(linemode == true)
+ 		if(linemode == true){
+ 			console.log('bouton désactivé');
  			linemode = false;
- 		else
+ 		}else if (erasermode == true){
+ 			console.log('bouton line réactivé');
+ 			erasermode = false;
  			linemode = true;
+ 		}
+ 		else{
+ 			console.log('bouton activé');
+ 			linemode = true;
+ 		}
  	});
 }
 
