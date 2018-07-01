@@ -10,7 +10,7 @@ var canvas, ctx,
 	strokes = [],
 	currentStroke = null,
 	linemode = false;
-	erasermode =false;
+	erasermode = false;
 
 function redraw(){
 	ctx.clearRect(0, 0, canvas.width(), canvas.height());
@@ -54,7 +54,7 @@ function init(){
 
  	canvas.mousedown(function (e) {
  		if (linemode == true){
- 			console.log('Je suis linemode');
+ 			//console.log('Je suis linemode');
  			currentStroke = {
 	 			color: brush.color,
 	 			size: brush.size,
@@ -76,7 +76,7 @@ function init(){
  		} else {
 
 	 		brush.down = true;
-	 		console.log('Je suis down');
+	 		//console.log('Je suis down');
 
 	 		currentStroke = {
 	 			color: brush.color,
@@ -89,13 +89,13 @@ function init(){
 
  	}).mouseup(function (e) {
  		if (linemode == true){
- 			console.log('Je suis up')
+ 			//console.log('Je suis up')
  			ctx.lineTo(e.pageX, e.pageY);
  			ctx.stroke();
 
  			mouseEvent(e)
  		} else {
- 			console.log('je suis encore down')
+ 			//console.log('je suis encore down')
  			brush.down = false;
 
 	 		mouseEvent(e);
@@ -103,7 +103,7 @@ function init(){
 			currentStroke = null;
 		}
  	}).mousemove(function (e){
- 		console.log('MOVE');
+ 		//console.log('MOVE');
  		if (brush.down)
  			mouseEvent(e);
  	});
@@ -134,7 +134,7 @@ function init(){
 
  	$('#eraser').click(function (){
  		if (linemode == true){
- 			console.log('bouton line désactivé par eraser');
+ 			//console.log('bouton line désactivé par eraser');
  			linemode = false;
  			brush.color = 'white';
  		}else{
@@ -144,11 +144,11 @@ function init(){
 
  	$('#pencil').click(function () {
  		if (linemode == true){
- 			console.log('bouton line désactivé par pencil');
+ 			//console.log('bouton line désactivé par pencil');
  			linemode = false;
  			brush.color = $("#colorpicker").val();
  		}else{
- 			console.log('pencil activé');
+ 			//console.log('pencil activé');
  			brush.color = $("#colorpicker").val();
 		}
  	});
@@ -156,15 +156,15 @@ function init(){
  	$('#line').click(function () {
 
  		if(linemode == true){
- 			console.log('bouton désactivé');
+ 			//console.log('bouton désactivé');
  			linemode = false;
  		}else if (erasermode == true){
- 			console.log('bouton line réactivé');
+ 			//console.log('bouton line réactivé');
  			erasermode = false;
  			linemode = true;
  		}
  		else{
- 			console.log('bouton activé');
+ 			//console.log('bouton activé');
  			linemode = true;
  		}
  	});
